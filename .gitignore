@@ -1,0 +1,14 @@
+### IDE
+.idea
+.iml
+.ipr
+.iws
+
+### BUILD
+.mvn
+
+### BACK-END
+HELP.md
+target/
+logs/
+src/main/resources/*local.yml
