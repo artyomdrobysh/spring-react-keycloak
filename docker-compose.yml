@@ -32,12 +32,6 @@ services:
     image: quay.io/keycloak/keycloak:latest
     command: ["start-dev"]
     restart: no
-    healthcheck:
-      test: "curl -f http://localhost:8080/realms/master"
-      interval: 5s
-      timeout: 5s
-      retries: 2
-      start_period: 5s
     ports:
       - "9001:8080"
     depends_on:
@@ -66,17 +60,16 @@ services:
     restart: no
     depends_on:
       keycloak:
-        condition: service_healthy
+        condition: service_started
     ports:
       - "8081:8081"
-      - "5005:5005"
     volumes:
       - "./data/logs:/home/oauth/logs"
       - "./data/backend/config:/home/oauth/config"
     logging: *logging
     environment:
       SPRING_PROFILES_ACTIVE: local
-      JAVA_OPTS: -Xms128m -Xmx512m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Dserver.port=8081
+      JAVA_OPTS: -Xms128m -Xmx512m -Dserver.port=8081
     networks:
       - oauth
 
