@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: @project.build.finalName@
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+
+logging:
+  file:
+    name: logs/oauth2-back-end.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+  level:
+    root: info
+
+app:
+  name: ${spring.application.name}
+  description: @project.description@
+  version: @project.version@
