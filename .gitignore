@@ -4,11 +4,17 @@
 .ipr
 .iws
 
+### ROOT
+.env
+data/
+
+### COMMON
+**/HELP.md
+
 ### BUILD
 .mvn
 
 ### BACK-END
-HELP.md
-target/
-logs/
-src/main/resources/*local.yml
+oauth2-back-end/target/
+oauth2-back-end/logs/
+oauth2-back-end/src/main/resources/*local.yml

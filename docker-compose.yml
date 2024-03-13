@@ -1,0 +1,85 @@
+version: "3.8"
+
+x-logging: &logging
+  driver: local
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  database:
+    container_name: oauth_database
+    image: postgres:16.1
+    restart: no
+    user: 1001:1001
+    volumes:
+      - "./data/database:/docker-entrypoint-initdb.d"
+      - "./data/postgres:/var/lib/postgresql/data"
+    healthcheck:
+      test: "pg_isready -U postgres -d postgres"
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    logging: *logging
+    networks:
+      - oauth
+
+  keycloak:
+    container_name: oauth_keycloak
+    image: quay.io/keycloak/keycloak:latest
+    command: ["start-dev"]
+    restart: no
+    healthcheck:
+      test: "curl -f http://localhost:8080/realms/master"
+      interval: 5s
+      timeout: 5s
+      retries: 2
+      start_period: 5s
+    ports:
+      - "9001:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      KC_HOSTNAME: ${KC_HOSTNAME}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: postgres
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      KC_DB_URL: jdbc:postgresql://database:5432/keycloak_db
+    logging: *logging
+    networks:
+      - oauth
+
+  back-end:
+    container_name: oauth_backend
+    build:
+      context: ./oauth2-back-end
+      args:
+        JAR_FILE: target/oauth2.jar
+        PORT: 8081
+    image: oauth_backend:latest
+    restart: no
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+      - "5005:5005"
+    volumes:
+      - "./data/logs:/home/oauth/logs"
+      - "./data/backend/config:/home/oauth/config"
+    logging: *logging
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      JAVA_OPTS: -Xms128m -Xmx512m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Dserver.port=8081
+    networks:
+      - oauth
+
+networks:
+  oauth:
+    driver: bridge
