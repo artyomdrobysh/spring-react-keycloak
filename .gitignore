@@ -1,20 +1,22 @@
 ### IDE
-.idea
-.iml
-.ipr
-.iws
+**/.idea
+*.iml
+*.ipr
+*.iws
 
 ### ROOT
-.env
 data/
 
 ### COMMON
-**/HELP.md
-
-### BUILD
-.mvn
+HELP.md
+.env
 
 ### BACK-END
+.mvn
 oauth2-back-end/target/
 oauth2-back-end/logs/
 oauth2-back-end/src/main/resources/*local.yml
+
+### FRONT-END
+oauth2-front-end/node_modules/
+oauth2-front-end/build/
