@@ -14,6 +14,21 @@
             "name": "app.version",
             "type": "java.lang.String",
             "description": "Version of the application."
+        },
+        {
+            "name": "app.oauth.authorization-url",
+            "type": "java.lang.String",
+            "description": "Authorization URL of OAuth authorization server."
+        },
+        {
+            "name": "app.oauth.token-url",
+            "type": "java.lang.String",
+            "description": "Token URL of OAuth authorization server."
+        },
+        {
+            "name": "app.cors.allowed-origins",
+            "type": "java.lang.String",
+            "description": "Array of allowed by CORS origins."
         }
     ]
 }

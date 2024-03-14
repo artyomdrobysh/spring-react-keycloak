@@ -22,7 +22,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
  *
  * @author Artyom Drobysh (artyom.drobysh96@gmail.com)
  * @since 0.1.0
- * @version 0.1.0
+ * @version 1.1.0
  */
 @Configuration
 @EnableWebSecurity
@@ -43,7 +43,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(AbstractHttpConfigurer::disable)
-            .cors(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(req ->
                 req.requestMatchers("/api-docs/**", "/swagger-ui/**").permitAll()
                     .anyRequest().authenticated())
