@@ -1,8 +1,12 @@
-FROM eclipse-temurin:21-jre as build
+FROM eclipse-temurin:21-jdk as build
 WORKDIR /opt/app
-ARG JAR_FILE
-COPY ${JAR_FILE} ./app.jar
-RUN java -Djarmode=layertools -jar app.jar extract
+
+COPY .mvn .mvn
+COPY mvnw .
+COPY pom.xml .
+COPY src ./src
+RUN ./mvnw package -DskipTests
+RUN java -Djarmode=layertools -jar target/*.jar extract
 
 FROM eclipse-temurin:21-jre-alpine
 
