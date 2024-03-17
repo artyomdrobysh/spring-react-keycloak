@@ -6,7 +6,7 @@ const App = React.lazy(() => import("@components/App"));
 import KeycloakProvider from "@providers/KeycloakProvider";
 
 import "./clear.css";
-import "./styles.css";
+import "./styles.scss";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 root.render(

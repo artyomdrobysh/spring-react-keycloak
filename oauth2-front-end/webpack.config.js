@@ -92,7 +92,7 @@ module.exports = {
             cleanStaleWebpackAssets: false
         }),
         new MiniCssExtractPlugin({
-            filename: "name.css"
+            filename: "[name].css"
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "public", "index.html"),
