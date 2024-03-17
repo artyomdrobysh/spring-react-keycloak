@@ -1,0 +1,7 @@
+DB_PASSWORD=<postgres-password>
+KEYCLOAK_ADMIN=<keycloak-admin-login>
+KEYCLOAK_ADMIN_PASSWORD=<keycloak-admin-password>
+KEYCLOAK_DB_PASSWORD=<keycloak-postgres-password>
+KC_HOSTNAME=<keycloak-host>
+KEYCLOAK_REALM=<realm>
+KEYCLOAK_FRONTEND_CLIENT_ID=<client-id-for-frontend>

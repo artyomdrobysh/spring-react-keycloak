@@ -1,0 +1,20 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://<keycloak_url>:9001/realms/<realm>
+
+springdoc:
+  swagger-ui:
+    oauth:
+      realm: <realm>
+      client-id: <client-id>
+      client-secret: <client-secret>
+
+app:
+  cors:
+    allowed-origins: http://<nginx-url>
+  oauth:
+    authorization-url: http://<keycloak-url>:9001/realms/<realm>/protocol/openid-connect/auth
+    token-url: http://<keycloak-url>:9001/realms/<realm>/protocol/openid-connect/token
