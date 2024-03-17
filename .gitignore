@@ -9,10 +9,9 @@ data/
 
 ### COMMON
 HELP.md
-.env
+*.env
 
 ### BACK-END
-.mvn
 oauth2-back-end/target/
 oauth2-back-end/logs/
 oauth2-back-end/src/main/resources/*local.yml

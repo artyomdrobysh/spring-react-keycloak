@@ -25,7 +25,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     logging: *logging
     networks:
-      - oauth
+      - keycloak-inner
 
   keycloak:
     container_name: oauth_keycloak
@@ -47,6 +47,7 @@ services:
       KC_DB_URL: jdbc:postgresql://database:5432/keycloak_db
     logging: *logging
     networks:
+      - keycloak-inner
       - oauth
 
   back-end:
@@ -73,6 +74,26 @@ services:
     networks:
       - oauth
 
+  front-end:
+    container_name: oauth_frontend
+    build:
+      context: .
+      dockerfile: ./oauth2-front-end/Dockerfile
+      args:
+        SOURCE_DIR: oauth2-front-end
+        ENV_FILE: .frontend.env
+    image: oauth_frontend:latest
+    restart: no
+    ports:
+      - "81:81"
+    volumes:
+      - "./data/nginx/conf:/etc/nginx/conf.d"
+    logging: *logging
+    networks:
+      - oauth
+
 networks:
   oauth:
+    driver: bridge
+  keycloak-inner:
     driver: bridge
